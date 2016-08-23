@@ -6,6 +6,8 @@ en:
         title: 'Categories'
         new: 'New category'
         edit: 'Edit'
+      new:
+        title: 'Categories'
     site_partners:
       index:
         title: "Juntos's Partners"
@@ -113,8 +115,6 @@ en:
       confirm: 'Confirm'
     users:
       index:
-        id: 'ID'
-        email: 'E-mail'
         title: 'Donors management'
         menu: 'Users'
         credits: 'Credits'
@@ -132,7 +132,9 @@ en:
         total_users: 'users'
         total_credits: 'credits'
         total_credits_view: 'credits'
+        id: ID
         user: 'User'
+        email: Email
         value: 'Value'
         payer_email: "Payer's email"
         provider: 'Provider'
@@ -208,6 +210,7 @@ en:
         key: 'Key'
         no_contributions: 'No contributions'
         project: 'Project'
+        project_state: Status
         refunded: 'Refunded?'
         requested_refund: 'Requested refund?'
         reward: 'Reward'
@@ -224,7 +227,7 @@ en:
         platform_value: 'Amount to the platform'
         project_value: 'Amount to the project'
         partner_indication: 'Partner indication'
-        only_recurring: Only recurring
+        only_recurring: Only recurring 
         only_cancelled_recurring: Recurring cancelled
 
     statistics:
