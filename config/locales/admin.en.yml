@@ -65,7 +65,6 @@ en:
         by_state: 'By state'
         between_expires_at: 'Expires between'
         by_progress: 'By progress %'
-        no_projects: 'No projects were found'
         details:
           name: 'Legal name'
           bank_data: 'Bank account info'
@@ -222,7 +221,7 @@ en:
         total_users: 'users'
         user: 'User'
         value: 'Value'
-        credits: 'Credits'
+        credits: 'Credits?'
         platform_contributions: 'Donations to the platform'
         platform_value: 'Amount to the platform'
         project_value: 'Amount to the project'

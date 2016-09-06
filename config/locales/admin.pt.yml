@@ -221,10 +221,10 @@ pt:
         user: Usuário
         user_id: Id do usuário
         value: Valor
-        credits: Créditos
+        credits: Crédito?
         platform_contributions: Contribuições para a plataforma
-        platform_value: Valor para a plataforma
-        project_value: Valor para o projeto
+        platform_value: para plataforma
+        project_value: para projeto
         partner_indication: Indicação de parceiros
         search_report: Exportar CSV
         emails: Emails
