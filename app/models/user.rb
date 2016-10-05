@@ -12,7 +12,8 @@ class User < ActiveRecord::Base
   delegate  :display_name, :display_image, :short_name, :display_image_html,
     :medium_name, :display_credits, :display_total_of_contributions, :contributions_text,
     :twitter_link, :gravatar_url, :display_bank_account, :display_bank_account_owner,
-    :larger_display_image, :projects_count, to: :decorator
+    :larger_display_image, :projects_count, :display_pending_documents,
+    :display_project_not_approved, to: :decorator
 
   attr_accessible :email, :password, :password_confirmation, :remember_me,
     :name, :image_url, :uploaded_image, :bio, :newsletter, :full_name,
@@ -270,23 +271,6 @@ class User < ActiveRecord::Base
 
   def pending_documents?
     access_type == 'individual' && !(original_doc12_url? && original_doc13_url?)
-  end
-
-  def fix_name_encoding
-    n = name
-    n.gsub! 'Ã‡', 'Ç'
-    n.gsub! 'Ã€', 'À'
-    n.gsub! 'Ãƒ', 'Ã'
-    n.gsub! 'Ã‰', 'É'
-    n.gsub! 'ÃŠ', 'Ê'
-    n.gsub! 'Ã§', 'ç'
-    n.gsub! 'Ã©', 'é'
-    n.gsub! 'Ã¡', 'á'
-    n.gsub! 'Ã¢', 'â'
-    n.gsub! 'Ã£', 'ã'
-    n.gsub! 'Ã§Ã£', 'çã'
-    self.name = n
-    self.save
   end
 
   def documents_list
