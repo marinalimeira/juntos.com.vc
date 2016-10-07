@@ -18,7 +18,7 @@ class UserDecorator < Draper::Decorator
     "http://twitter.com/#{source.twitter}" unless source.twitter.blank?
   end
 
-  def gravatar_url size=80
+  def gravatar_url(size=80)
     return unless source.email
     image_name = Digest::MD5.new.update(source.email)
     base_url = CatarseSettings[:base_url]
@@ -38,7 +38,7 @@ class UserDecorator < Draper::Decorator
     source.uploaded_image.larger_thumb_avatar.url || source.image_url || source.gravatar_url(256) || '/user.png'
   end
 
-  def display_image_html options={width: 119, height: 121}
+  def display_image_html(options={width: 119, height: 121})
     div_style = "width: #{options[:width]}px; height: #{options[:height]}px"
     image_style = "width: #{options[:width]}px; height: auto"
 
@@ -91,6 +91,40 @@ class UserDecorator < Draper::Decorator
     user_documents_div unless source.approved?
   end
 
+  def following_this_category?(category_id)
+    source.category_followers.pluck(:category_id).include?(category_id)
+  end
+
+  def display_unsuccessful_project_count
+    failed_contributed_projects.count
+  end
+
+  def display_last_unsuccessful_project_expires_at
+    failed_contributed_projects.last.expires_at.to_i rescue "null"
+  end
+
+  def to_analytics_json
+    {
+      id: source.id,
+      email: source.email,
+      total_contributed_projects: source.total_contributed_projects,
+      total_created_projects: source.projects.count,
+      created_at: source.created_at,
+      last_sign_in_at: source.last_sign_in_at,
+      sign_in_count: source.sign_in_count,
+      created_today: source.created_today?
+    }.to_json
+  end
+
+  def to_param
+    return "#{source.id}" unless source.display_name != I18n.t('no_name', scope: 'user')
+    "#{source.id}-#{source.display_name.parameterize}"
+  end
+
+  def display_user_projects_link(fontsize=nil)
+    display_projects_link(fontsize) if source.projects.present?
+  end
+
   private
 
   def user_documents_div
@@ -106,5 +140,25 @@ class UserDecorator < Draper::Decorator
     text = I18n.t('user_documents_html', url: url, scope: 'projects.show').html_safe
 
     content_tag(:div, text, class: css_classes)
+  end
+
+  def display_projects_link(fontsize=nil)
+    url = user_path(current_user, anchor: 'projects')
+    css_class = nil
+
+    if fontsize
+      css_class = [
+        "w-dropdown-link",
+        "dropdown-link",
+        "fontsize-smaller"
+      ]
+    end
+    link = link_to(I18n.t('projects', scope: 'shared.header'), url)
+
+    content_tag(:div, link, class: css_class)
+  end
+
+  def failed_contributed_projects
+    source.contributed_projects.where(state: 'failed')
   end
 end
